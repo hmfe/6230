@@ -1,0 +1,192 @@
+html, 
+body {
+    margin: 0;
+    padding: 0;
+    /* font-family: 'Roboto', sans-serif; */
+    font-family: 'Open Sans', sans-serif;
+    color: #333;
+}
+ul, 
+li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+article.search-box {
+    display: inline-flex;
+    flex-direction: column;
+    background: #F5F5F5;
+    max-width: 340px;
+    width: 80%;
+    padding: 5px;
+}
+input {
+    margin: 0;
+    padding: 5px 10px;
+    border: 1px solid #D9D9D9;
+}
+article:not(.search-box) {
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #fdfdfd;
+}
+article:not(.search-box) h4,
+article:not(.search-box) hgroup h5  {
+    margin: 0 0 15px;
+}
+article:not(.search-box) hgroup h4 {
+    margin: 0;
+}
+article:not(.search-box) hgroup h5 {
+    color: #9a9a9a;
+}
+input[type="search"]::-webkit-search-cancel-button {
+    height: 18px;
+    width: 18px;
+    color: #89837C;
+}
+button#delete-all {
+    display: inline-block;
+    position: relative;
+    background: #F2A64F;
+    font-weight: bold;
+    font-size: 14px;
+    border: 1px solid #89837C;
+    padding: 15px 40px 15px 5px;
+}
+button#delete-all::after {
+    content: "x";
+    position: absolute;
+    color: #333;
+    right: 15px;
+    top: 50%;
+    font-size: 18px;
+    line-height: 0;
+}
+button#delete-all::before {
+    content: "";
+    position: absolute;
+    padding: 15px;
+    right: 5px;
+    top: calc(50% - 14px);
+    border-radius: 50%;
+    background: #fff;
+    color: #333;
+}
+ul#search-list {
+    margin-top: 2px;
+    background: #fff;
+    border: 1px solid #D9D9D9;
+    max-height: 130px;
+    overflow: auto;
+    cursor: pointer;
+}
+ul#search-list li {
+    padding: 5px 10px;
+}
+ul#search-list li .list-text {
+    font-size: 14px;
+    text-transform: lowercase;
+}
+ul#search-list li:hover {
+    background: #F5F5F5;
+    font-size: 18px;
+    transition: all .2s;
+}
+section#search-history {
+    padding: 10px 10px 40px;
+}
+section#search-history h4,
+section#search-history h5 {    
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    padding: 20px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+section#search-history h4 {
+    display: inline-flex;
+}
+section#search-history h5 {
+    display: none;
+}
+#search-history button.clear-history,
+#search-history button.clear-history-small {
+    display: inline-block;
+    border: none;
+    background: none;
+    outline: none;
+    cursor: pointer;
+    color: #5d5d5d;
+    font-size: 12px;
+    text-decoration: underline;
+    text-align: right;
+}
+ul#search-history-list li {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+ul#search-history-list li .list-text {
+    font-size: 14px;
+    text-transform: lowercase;
+}
+ul#search-history-list .timestamp-box {
+    display: inline-flex;
+    align-items: center;
+}
+ul#search-history-list .timestamp-text {
+    font-size: 12px;
+    color: #B5B5B5;
+}
+ul#search-history-list .close-icon {
+    width: 20px;
+    height: 20px;
+    padding: 0 0 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
+}
+ul#search-history-list .close-icon::before,
+ul#search-history-list .close-icon::after {
+    width: 18px;
+    height: 2px;
+    background: #ababab;
+    position: absolute;
+    content: "";
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+}
+ul#search-history-list .close-icon::before {
+    transform: rotate(45deg);
+}
+ul#search-history-list .close-icon::after {
+    transform: rotate(-45deg);
+}
+@media screen and (max-width: 480px) {
+    section#search-history h4,
+    ul#search-history-list .timestamp-text {
+        display: none;
+    }
+    section#search-history h5 {
+        display: inline-flex;
+    }
+    ul#search-list li {
+        padding: 3px 10px;
+    }
+    ul#search-list li .list-text {
+        font-size: 12px;
+    }
+    ul#search-history-list li {
+        padding: 7px 0;
+    }
+    ul#search-history-list li .list-text {
+        font-size: 12px;
+    }
+    
+}

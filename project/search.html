@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search page</title>
+    <meta charset="UTF-8" />
+    <meta name="description" content="A simple search application with history and timestamp. It is lightweight and plain javascript.">
+    <link rel="canonical" href="https://github.com/hmfe/6230" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" />
+    <link rel="stylesheet" href="search.css" />
+</head>
+<body>
+    <article>
+        <h4>CSS-wizardry</h4>
+        <button type="button" id="delete-all">Delete</button>
+    </article>
+    <article>
+        <hgroup>
+            <h4>
+                Simple search application
+            </h4>
+            <h5>[currency nomination]</h5>
+        </hgroup>
+        <article class="search-box">
+            <input type="search" placeholder="Search here" id="search-currency" />
+            <div id="search-list-box">
+            </div>
+            <section id="search-history">
+                <h4>
+                    Search history
+                    <button class="clear-history">Clear search history</button>
+                </h4>
+                <h5>
+                    Search history
+                    <button class="clear-history-small">Clear</button>
+                </h5>
+            </section>
+        </article>
+    </article>
+    <script src="search.js"></script>
+</body>
+</html>
