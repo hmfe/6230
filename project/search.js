@@ -194,6 +194,9 @@
             historyListCount = document.getElementById("search-history-list").childElementCount;
         }
         populateSearchHistoryList(historyList, historyListCount);
+        if (historyListCount >= 0) {
+            document.getElementById("search-history").setAttribute("class", "isActive");
+        }
     }
 
     function onHistoryListClose(e) {
@@ -208,6 +211,7 @@
         let historyListElement = document.getElementById("search-history-list");
         if (historyListElement !== null) {
             historyListElement.remove();
+            document.getElementById("search-history").removeAttribute("class");
         }
     }
 

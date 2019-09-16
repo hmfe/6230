@@ -100,7 +100,11 @@ ul#search-list li:focus {
     transition: all .2s;
 }
 section#search-history {
+    display: none;
     padding: 10px 10px 40px;
+}
+section#search-history.isActive {
+    display: inline-block;
 }
 section#search-history h4,
 section#search-history h5 {    
