@@ -23,6 +23,7 @@ article.search-box {
 input {
     margin: 0;
     padding: 5px 10px;
+    width: 100%;
     border: 1px solid #D9D9D9;
 }
 article:not(.search-box) {
@@ -55,12 +56,12 @@ button#delete-all {
     padding: 15px 40px 15px 5px;
 }
 button#delete-all::after {
-    content: "x";
+    content: "\00D7";
     position: absolute;
     color: #333;
-    right: 15px;
-    top: 50%;
-    font-size: 18px;
+    right: 13px;
+    top: calc(50% + 1px);
+    font-size: 24px;
     line-height: 0;
 }
 button#delete-all::before {
@@ -84,11 +85,16 @@ ul#search-list {
 ul#search-list li {
     padding: 5px 10px;
 }
-ul#search-list li .list-text {
+ul#search-list li .list-text,
+ul#search-history-list li .list-text {
     font-size: 14px;
+    font-style: normal;
     text-transform: lowercase;
+    text-decoration: none;
+    color: #333;
 }
-ul#search-list li:hover {
+ul#search-list li:hover,
+ul#search-list li:focus {
     background: #F5F5F5;
     font-size: 18px;
     transition: all .2s;
@@ -116,7 +122,6 @@ section#search-history h5 {
     display: inline-block;
     border: none;
     background: none;
-    outline: none;
     cursor: pointer;
     color: #5d5d5d;
     font-size: 12px;
@@ -130,25 +135,25 @@ ul#search-history-list li {
     padding: 10px 0;
     border-bottom: 1px solid #e0e0e0;
 }
-ul#search-history-list li .list-text {
-    font-size: 14px;
-    text-transform: lowercase;
-}
 ul#search-history-list .timestamp-box {
     display: inline-flex;
     align-items: center;
 }
-ul#search-history-list .timestamp-text {
+ul#search-history-list time {
     font-size: 12px;
     color: #B5B5B5;
 }
-ul#search-history-list .close-icon {
+ul#search-history-list button.close-icon {
     width: 20px;
     height: 20px;
-    padding: 0 0 0 15px;
+    padding: 0 0 0 20px;
+    margin-left: 15px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    background: none;
+    border: none;
+    outline: none;
     cursor: pointer;
 }
 ul#search-history-list .close-icon::before,
@@ -170,7 +175,7 @@ ul#search-history-list .close-icon::after {
 }
 @media screen and (max-width: 480px) {
     section#search-history h4,
-    ul#search-history-list .timestamp-text {
+    ul#search-history-list time {
         display: none;
     }
     section#search-history h5 {

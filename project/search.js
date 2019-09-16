@@ -4,20 +4,10 @@
     document.getElementById("search-currency").oninput = onCurrencySearch;
     document.getElementsByClassName("clear-history")[0].onclick = onClearHistoryClick;
     document.getElementsByClassName("clear-history-small")[0].onclick = onClearHistoryClick;
-    const search = document.querySelector('input[type="search"]');
-
-    search.addEventListener('blur', (e) => {
-        let targetCaptured = "";
-        if (e.target !== e.currentTarget) {
-            targetCaptured = e.currentTarget;
-        }
-        console.log("event: ", e.target, targetCaptured);
-    });
             
     function onCurrencySearch() {
         let searchList = document.getElementById("search-list");
         let currecncySearch = document.getElementById('search-currency').value;
-    //    console.log('currency: ', currecncySearch);
         currecncySearch = currecncySearch.trim().replace(/( )?:( )?/g, '');
         searchList !== null && clearCurrencyList();
         if (currecncySearch !== '' && currecncySearch !== ' ') {
@@ -35,40 +25,56 @@
             currencyList.forEach(currency => {
                 let currencyMatch = currency.match(currecncySearch.toUpperCase());
                 if (currencyMatch !== null) {
-                    currencyMatch = currencyMatch.input
-                //    console.log(currencyMatch);
+                    currencyMatch = currencyMatch.input;
                     currencyMatchList.push(currencyMatch);
-                    populateCurrencyList(currencyMatch, currencyListCount);
+                    populateCurrencyList(currecncySearch, currencyMatch, currencyListCount);
                     ++currencyListCount;
                 }
             });
-        //    console.log('json: ', json.rates);
-        //    console.log('currencyList: ', currencyMatchList);
         });
     }
 
-    function createUnorderedList(listType, list, listElementId, listParentId, listCount) {
+    function highlightSearchResults(inputString, matchString) {
+        let regEx = new RegExp(inputString, 'gi');
+        let response = matchString.replace(regEx, (str) => {
+            return "<strong>" + str + "</strong>"
+        });
+        return response;
+    }
+
+    function createUnorderedList(listType, list, listElementId, listParentId, listCount, tabIndex, listKey) {
+        listKey = (typeof listKey !== 'undefined') ?  listKey : "";
+        let unorderedListNode = "";
         if (listCount === 0) {
-            let unorderedListNode = document.createElement("ul");
+            unorderedListNode = document.createElement("ul");
             unorderedListNode.setAttribute("id", listElementId);
+            unorderedListNode.setAttribute("tabindex", tabIndex);
+
             document.getElementById(listParentId).appendChild(unorderedListNode);
         }
         let listNode = document.createElement("li");
-        let listTextNode = document.createElement("span");
+        listNode.setAttribute("tabindex", "-1");
+
+        let listTextNode = document.createElement("a");
         listTextNode.className = "list-text";
-        let txtNode = document.createTextNode(list);
-        listTextNode.appendChild(txtNode);
+        listTextNode.setAttribute("href", "#");
+        if (listKey !== "") {
+            listTextNode.innerHTML = highlightSearchResults(listKey, list);
+            navigateList(listElementId);
+        } else {
+            let txtNode = document.createTextNode(list);
+            listTextNode.appendChild(txtNode);
+        }
         listNode.appendChild(listTextNode);
         if (listType === "history") {
             let timestamp = timestampConvertion();
-            let timestampNode = document.createElement("span");
-            timestampNode.className = "timestamp-text";
+            let timestampNode = document.createElement("time");
             
-            let closeIconNode = document.createElement("span");
+            let closeIconNode = document.createElement("button");
             closeIconNode.className = "close-icon";
             closeIconNode.onclick = onHistoryListClose;
 
-            let timestampContainerNode = document.createElement("div");
+            let timestampContainerNode = document.createElement("section");
             timestampContainerNode.className = "timestamp-box";
             timestampContainerNode.appendChild(timestampNode);
             timestampContainerNode.appendChild(closeIconNode);
@@ -87,13 +93,64 @@
         }
     }
 
-    function populateCurrencyList(currencyMatchList, currencyListCount) {
+    function navigateList(listElementId) {
+        let inputElement = document.getElementById("search-currency");
+        
+        document.onkeydown = (e) => {
+            let listElement = document.getElementById(listElementId),
+                firstItem, lastItem;
+
+            if (listElement !== null) {
+                firstItem = listElement.firstChild,
+                lastItem = listElement.lastChild;
+            
+                switch (e.keyCode) {
+                    case 38: // Up key
+                        if ((document.activeElement === null) || 
+                            (document.activeElement === inputElement) ||
+                            (document.activeElement.parentNode !== listElement)) {
+                            break;   
+                        } else if (document.activeElement === firstItem) {
+                            inputElement.focus();
+                        } else {
+                            document.activeElement.previousSibling.focus();
+                        }
+                    break;
+                    case 40: // Down key
+                        if (document.activeElement === null) {
+                            break;
+                        } else if (document.activeElement === inputElement) {
+                            firstItem.focus();
+                        } else if (document.activeElement.parentNode !== listElement) {
+                            break;
+                        } else if (document.activeElement === lastItem) {
+                            lastItem.focus();
+                        } else {
+                            document.activeElement.nextSibling.focus();
+                        }
+                    break;
+                    case 13: // Enter key
+                        if (document.activeElement.parentNode !== listElement) {
+                            break;
+                        } 
+                        else {
+                            document.activeElement.click();
+                        }
+                    break;
+                }
+            }
+        }
+    }
+
+    function populateCurrencyList(currecncySearch, currencyMatch, currencyListCount) {
         let listType = "search",
-            list = currencyMatchList,
+            list = currencyMatch,
+            listKey = currecncySearch;
             listElementId = "search-list",
-            listParentId = "search-list-box",
-            listCount = currencyListCount;
-        createUnorderedList(listType, list, listElementId, listParentId, listCount);
+            listParentId = "search-form",
+            listCount = currencyListCount,
+            tabIndex = "1";
+        createUnorderedList(listType, list, listElementId, listParentId, listCount, tabIndex, listKey);
     }
 
     function clearCurrencyList() {
@@ -105,8 +162,9 @@
             list = historyList,
             listElementId = "search-history-list",
             listParentId = "search-history",
-            listCount = historyListCount;
-        createUnorderedList(listType, list, listElementId, listParentId, listCount);
+            listCount = historyListCount,
+            tabIndex = "2";
+        createUnorderedList(listType, list, listElementId, listParentId, listCount, tabIndex);
     }
 
     function dateZeroFormat(i) {
@@ -129,14 +187,13 @@
     }
 
     function onCurrencySearchClick(e) {
-        let historyList = e.srcElement.firstElementChild.innerHTML,
+        let historyList = e.srcElement.textContent,
             historyListCount = 0,
             historyListElement = document.getElementById("search-history-list");
         if (historyListElement !== null) {
             historyListCount = document.getElementById("search-history-list").childElementCount;
         }
         populateSearchHistoryList(historyList, historyListCount);
-        console.log('clicked list: ', historyList);
     }
 
     function onHistoryListClose(e) {

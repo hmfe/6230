@@ -11,7 +11,7 @@
 <body>
     <article>
         <h4>CSS-wizardry</h4>
-        <button type="button" id="delete-all">Delete</button>
+        <button type="button" id="delete-all" aria-label="Delete button">Delete</button>
     </article>
     <article>
         <hgroup>
@@ -21,9 +21,9 @@
             <h5>[currency nomination]</h5>
         </hgroup>
         <article class="search-box">
-            <input type="search" placeholder="Search here" id="search-currency" />
-            <div id="search-list-box">
-            </div>
+            <form id="search-form">
+                <input type="search" placeholder="Search here" id="search-currency" />
+            </form>
             <section id="search-history">
                 <h4>
                     Search history
